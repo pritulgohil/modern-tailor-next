@@ -9,6 +9,7 @@ import OurServices from "@/components/OurServices";
 import WorkGallery from "@/components/WorkGallery";
 import AnimatedTestimonialsDemo from "@/components/Testimonials";
 import VisitUs from "@/components/Visit";
+import Footer from "@/components/Footer";
 
 const AuroraBackgroundDemo = () => {
   return (
@@ -62,6 +63,7 @@ const AuroraBackgroundDemo = () => {
       <WorkGallery />
       <VisitUs />
       <AnimatedTestimonialsDemo />
+      <Footer />
     </>
   );
 };
