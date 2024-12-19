@@ -9,7 +9,7 @@ function VisitUs() {
     triggerOnce: false,
     threshold: 0.5,
   });
-  const [isMuted, setIsMuted] = useState(true); // Initial state: muted
+  const [isMuted, setIsMuted] = useState(true);
 
   useEffect(() => {
     if (videoRef.current) {
@@ -24,7 +24,7 @@ function VisitUs() {
   const handleVideoClick = () => {
     if (videoRef.current) {
       setIsMuted(!isMuted);
-      videoRef.current.muted = !isMuted; // Toggle muted state
+      videoRef.current.muted = !isMuted;
     }
   };
 
@@ -34,9 +34,9 @@ function VisitUs() {
 
       <div
         ref={ref}
-        className="flex flex-col justify-evenly items-center h-screen px-2 md:px-8"
+        className="flex flex-col justify-center sm:justify-evenly items-center h-screen px-2 md:px-8 gap-10 sm:gap-0"
       >
-        <div className="section-header text-black text-5xl">
+        <div className="section-header text-black text-4xl sm:text-5xl text-center p-6 sm:p-0">
           <h1>Everything You Need, Under One Roof!</h1>
         </div>
         <div className="w-11/12 md:w-3/5 relative">
