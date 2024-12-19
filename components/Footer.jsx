@@ -4,8 +4,8 @@ import Image from "next/image";
 const Footer = () => {
   return (
     <>
-      <div className="footer-container w-full bg-zinc-100 p-24 flex justify-between">
-        <div className="brand-and-address-container flex flex-col w-1/3 gap-5">
+      <div className="footer-container w-full bg-zinc-100 sm:p-24 p-14 flex sm:flex-row flex-col sm:justify-between gap-10">
+        <div className="brand-and-address-container flex flex-col sm:w-1/3 w-full gap-5">
           <div className="brand-image-container text-black font-bold text-3xl">
             <h2>Modern Tailor & Cloth Store</h2>
           </div>
@@ -45,6 +45,20 @@ const Footer = () => {
               </svg>
               <p>+91 79 2745 2952</p>
             </div>
+          </div>
+        </div>
+        <div className="useful-links">
+          <div className="useful-links-container text-black font-bold text-3xl">
+            <h2>Useful Links</h2>
+          </div>
+          <div className="link-names text-black text-sm mt-5">
+            <ul className="flex flex-col gap-4">
+              <li>Book Appointment</li>
+              <li>Gallery</li>
+              <li>Store</li>
+              <li>Contact Us</li>
+              <li>About Us</li>
+            </ul>
           </div>
         </div>
         <div className="opening-hours-container">
