@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { AuroraBackground } from "@/components/ui/aurora-background";
 import BespokeVideo from "@/components/BespokeVideo";
 import OurServices from "@/components/OurServices";
@@ -39,9 +40,11 @@ const AuroraBackgroundDemo = () => {
           <div className="font-extralight text-base md:text-4xl dark:text-neutral-200 py-4">
             Crafting Timeless Elegance, One Stitch at a Time.
           </div>
-          <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 flex gap-1 items-center">
-            Book Appointment Today
-          </button>
+          <Link href="/book-appointment">
+            <button className="bg-black dark:bg-white rounded-full w-fit text-white dark:text-black px-4 py-2 flex gap-1 items-center">
+              Book Appointment
+            </button>
+          </Link>
         </motion.div>
       </AuroraBackground>
       <BespokeVideo />
