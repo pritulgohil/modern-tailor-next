@@ -113,7 +113,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <div className="footer-end bg-gray-950 h-22 w-full p-4 flex justify-center">
+      <div className="footer-end bg-gray-950 h-22 w-full p-4 flex text-white justify-center">
         <p>© 2024 Modern Tailor & Cloth Store. All Rights Reserved.</p>
       </div>
     </>
