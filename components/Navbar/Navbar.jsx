@@ -11,7 +11,10 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 
+import { usePathname } from "next/navigation";
+
 const Navbar = () => {
+  const pathname = usePathname();
   return (
     <>
       <div className="top-navbar bg-black h-24 flex items-center justify-between p-4">
@@ -33,11 +36,11 @@ const Navbar = () => {
           </div>
         </div>
       </div>
-      <div className="nav-container bg-slate-50 h-14 flex items-center justify-between px-4">
+      <div className="nav-container bg-slate-50 h-16 flex items-center justify-between">
         <NavigationMenu>
           <NavigationMenuList className="flex">
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/" legacyBehavior passHref>
                 <NavigationMenuLink
                   className={`${navigationMenuTriggerStyle()} text-black font-black text-md bg-slate-50 rounded-none h-14 hover:bg-slate-200 hover:h-14`}
                 >
@@ -46,9 +49,13 @@ const Navbar = () => {
               </Link>
             </NavigationMenuItem>
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/book-appointment" legacyBehavior passHref>
                 <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} text-black  text-md bg-slate-50 rounded-none h-14 hover:bg-slate-200 hover:h-14`}
+                  className={`${navigationMenuTriggerStyle()} ${
+                    pathname === "/book-appointment"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                      : "bg-red-500"
+                  }`}
                 >
                   Book Appointment
                 </NavigationMenuLink>
@@ -57,7 +64,11 @@ const Navbar = () => {
             <NavigationMenuItem>
               <Link href="/docs" legacyBehavior passHref>
                 <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} text-black  text-md bg-slate-50 rounded-none h-14 hover:bg-slate-200 hover:h-14`}
+                  className={`${navigationMenuTriggerStyle()} ${
+                    pathname === "/"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                      : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                  }`}
                 >
                   Gallery
                 </NavigationMenuLink>
