@@ -118,7 +118,7 @@ const Navbar = () => {
               <Link href="/login" legacyBehavior passHref>
                 <NavigationMenuLink
                   className={`${navigationMenuTriggerStyle()} ${
-                    pathname === "/login"
+                    pathname === "/login" || "/signup"
                       ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                       : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                   }`}
