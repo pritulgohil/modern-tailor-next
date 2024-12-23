@@ -54,7 +54,7 @@ const Navbar = () => {
                   className={`${navigationMenuTriggerStyle()} ${
                     pathname === "/book-appointment"
                       ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
-                      : "bg-red-500"
+                      : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                   }`}
                 >
                   Book Appointment
@@ -115,9 +115,13 @@ const Navbar = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/login" legacyBehavior passHref>
                 <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} text-black  text-md bg-slate-50 rounded-none h-14 hover:bg-slate-200 hover:h-14`}
+                  className={`${navigationMenuTriggerStyle()} ${
+                    pathname === "/login"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                      : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                  }`}
                 >
                   Login / Signup
                 </NavigationMenuLink>

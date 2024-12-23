@@ -55,7 +55,7 @@ const AppointmentForm = () => {
 
   return (
     <div className="main-container flex flex-col items-center justify-center">
-      <div className="appointment-form-container px-12 py-12 border border-solid border-slate-100 rounded-2xl w-4/12 max-w-lg my-12 shadow-md">
+      <div className="appointment-form-container px-12 py-12 border border-solid border-slate-200 rounded-2xl w-4/12 max-w-lg my-12">
         <div className="services-container">
           <div className="services-header text-xl mb-2">
             <h3>Select Service</h3>
