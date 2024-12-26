@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation"; // Correct import for Next.js 13+
+import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
+//Form validation and error message
 const FormSchema = z.object({
   firstname: z.string().min(2, {
     message: "First name must be at least 2 characters.",
@@ -31,17 +32,23 @@ const FormSchema = z.object({
   }),
 });
 
+//Styles for toast message for signup
 const customToastStyle = {
-  border: "2px solid green", // Green border
-  color: "green", // Green text color
+  border: "2px solid green",
+  color: "green",
 };
 
 const customErrorToastStyle = {
-  border: "2px solid red", // Red border
-  color: "#721c24", // Dark red text color
+  border: "2px solid red",
+  color: "#721c24",
 };
 
 function Signup() {
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+
+  //Default values
   const form = useForm({
     resolver: zodResolver(FormSchema),
     defaultValues: {
@@ -52,12 +59,9 @@ function Signup() {
     },
   });
 
-  const [isLoading, setIsLoading] = useState(false);
-  const { toast } = useToast();
-  const router = useRouter(); // Initialize the useRouter hook
-
+  //Function for handling signup submission
   async function onSubmit(data) {
-    setIsLoading(true); // Show spinner
+    setIsLoading(true);
     try {
       const response = await fetch("api/auth/register", {
         method: "POST",
@@ -74,7 +78,6 @@ function Signup() {
       const result = await response.json();
 
       if (response.ok) {
-        // Handle success (you can show a message or redirect)
         console.log("User registered successfully:", result);
         toast({
           title: result.message,
@@ -82,10 +85,9 @@ function Signup() {
           style: customToastStyle,
         });
         setTimeout(() => {
-          router.push("/login"); // Redirect to the login page
+          router.push("/login");
         }, 3000);
       } else {
-        // Handle error
         console.error("Error:", result.message);
         toast({
           title: result.message,
@@ -96,7 +98,7 @@ function Signup() {
     } catch (error) {
       console.error("Error during signup:", error);
     } finally {
-      setIsLoading(false); // Hide spinner
+      setIsLoading(false);
     }
   }
 
