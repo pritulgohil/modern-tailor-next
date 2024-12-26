@@ -27,9 +27,9 @@ const Navbar = () => {
           />
         </div>
         <div className="call-box text-white border border-slate-50 py-2 px-4 rounded-3xl flex items-center gap-2 cursor-pointer">
-          <span class="relative flex h-3 w-3 items-center justify-center">
-            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-            <span class="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+          <span className="relative flex h-3 w-3 items-center justify-center">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
           </span>
           <div className="phone-number">
             <p>+91 79 2745 2952</p>
@@ -54,7 +54,7 @@ const Navbar = () => {
                   className={`${navigationMenuTriggerStyle()} ${
                     pathname === "/book-appointment"
                       ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
-                      : "bg-red-500"
+                      : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                   }`}
                 >
                   Book Appointment
@@ -115,9 +115,13 @@ const Navbar = () => {
         <NavigationMenu>
           <NavigationMenuList>
             <NavigationMenuItem>
-              <Link href="/docs" legacyBehavior passHref>
+              <Link href="/login" legacyBehavior passHref>
                 <NavigationMenuLink
-                  className={`${navigationMenuTriggerStyle()} text-black  text-md bg-slate-50 rounded-none h-14 hover:bg-slate-200 hover:h-14`}
+                  className={`${navigationMenuTriggerStyle()} ${
+                    pathname === "/login" || pathname === "/signup"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                      : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                  }`}
                 >
                   Login / Signup
                 </NavigationMenuLink>
