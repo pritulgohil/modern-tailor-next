@@ -81,7 +81,7 @@ function Signup() {
         console.log("User registered successfully:", result);
         toast({
           title: result.message,
-          description: "Redirecting to login screen...",
+          description: "You will be redirected to login screen",
           style: customToastStyle,
         });
         setTimeout(() => {
@@ -171,7 +171,7 @@ function Signup() {
 
           <div className="login-button-container">
             {isLoading ? (
-              <Button className="bg-blue-600" type="submit">
+              <Button className="bg-blue-600" type="submit" disabled>
                 <svg
                   aria-hidden="true"
                   role="status"
@@ -189,7 +189,7 @@ function Signup() {
                     fill="currentColor"
                   />
                 </svg>
-                Signup
+                Signing up...
               </Button>
             ) : (
               <Button className="bg-blue-600" type="submit">
