@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/form";
 import Link from "next/link";
 import { Input } from "@/components/ui/input";
+import { useRouter } from "next/navigation";
 
 //Form validation
 const FormSchema = z.object({
@@ -41,6 +42,7 @@ const customErrorToastStyle = {
 function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
+  const router = useRouter();
 
   //Default values for form
   const form = useForm({
@@ -53,7 +55,6 @@ function Login() {
 
   async function onSubmit(data) {
     setIsLoading(true);
-    console.log(data.email);
     try {
       const response = await fetch("api/auth/signin", {
         method: "POST",
@@ -66,14 +67,14 @@ function Login() {
         }),
       });
       const result = await response.json();
-
       if (response.ok) {
-        console.log("Login successful");
+        localStorage.setItem("user", JSON.stringify({ id: result.userId }));
         toast({
           title: "Login Successful!",
-          description: "Welcome, User",
+          description: `Welcome`,
           style: customToastStyle,
         });
+        router.push("/dashboard");
       } else {
         toast({
           title: result.error,

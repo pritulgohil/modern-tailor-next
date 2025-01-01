@@ -30,12 +30,18 @@ export async function POST(req) {
     }
 
     const token = jwt.sign(
-      { userId: user._id, email: user.email },
+      {
+        userId: user._id,
+        email: user.email,
+        firstname: user.firstname,
+      },
       process.env.JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    return new Response(JSON.stringify({ token }), { status: 200 });
+    return new Response(JSON.stringify({ token, userId: user._id }), {
+      status: 200,
+    });
   } catch (error) {
     console.error(error);
     return new Response(JSON.stringify({ error: "Internal Server Error" }), {
