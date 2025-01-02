@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
 
 import {
   NavigationMenu,
@@ -11,26 +12,46 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
+import { useRouter } from "next/navigation";
 
 import { usePathname } from "next/navigation";
 import { data } from "autoprefixer";
 
 const Navbar = () => {
+  const router = useRouter();
   const pathname = usePathname();
   const [storedUser, setStoredUser] = useState(null);
-  const [userData, setUserData] = useState(null); // State to store fetched user data
+  const [userData, setUserData] = useState(null);
   const [loginStatus, setLoginStatus] = useState(false);
+  const [userDropDownVisibility, setUserDropDownVisibility] = useState(false);
+  const [logoutState, setLogoutState] = useState(true);
 
-  // const storedUser = JSON.parse(localStorage.getItem("user"));
-  // console.log("XYZ", storedUser);
+  const handleUserDropDownVisibility = () => {
+    setUserDropDownVisibility((prevState) => !prevState);
+  };
+
+  const handleDashboardClick = () => {
+    router.push("/dashboard");
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.clear(); // Clears all data from localStorage
+    setStoredUser(null);
+    setLoginStatus(false);
+    setLogoutState(true);
+
+    setTimeout(() => {
+      router.push("/");
+    }, 2000); // 2000 milliseconds = 2 seconds
+  };
 
   useEffect(() => {
-    // Access localStorage only on the client side
     if (typeof window !== "undefined") {
       const user = localStorage.getItem("user");
       if (user) {
         setStoredUser(JSON.parse(user));
         setLoginStatus(true);
+        setLogoutState(false);
       }
     }
   }, []);
@@ -40,7 +61,7 @@ const Navbar = () => {
         const response = await fetch(`/api/users/${storedUser.id}`);
         if (response.ok) {
           const data = await response.json();
-          setUserData(data.firstname); // Store fetched data in state
+          setUserData(data.firstname);
           console.log("User Data:", data.firstname);
         } else {
           console.error("Failed to fetch user data");
@@ -156,13 +177,13 @@ const Navbar = () => {
             {loginStatus ? (
               <NavigationMenuItem>
                 <NavigationMenuLink
+                  onClick={handleUserDropDownVisibility}
                   className={`${navigationMenuTriggerStyle()} ${
-                    pathname === "/login" || pathname === "/signup"
-                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
+                    pathname === "/dashboard"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16 cursor-pointer"
                       : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                   }`}
                 >
-                  {/* {`Welcome, ${userData}`} */}
                   {userData ? (
                     <>
                       Welcome, {userData}{" "}
@@ -221,6 +242,22 @@ const Navbar = () => {
             )}
           </NavigationMenuList>
         </NavigationMenu>
+        {userDropDownVisibility && (
+          <div className="user-drop-down absolute px-5 py-5 w-52 top-40 right-3 bg-black rounded-xl shadow-xl z-10">
+            <Button
+              onClick={handleDashboardClick}
+              className="w-full text-green-500 border border-green-500 hover:bg-green-500 hover:text-white"
+            >
+              Dashboard
+            </Button>
+            <Button
+              onClick={handleLogoutClick}
+              className="w-full mt-2 bg-red-500 hover:bg-red-600"
+            >
+              {logoutState ? "Logging Out..." : "Logout"}
+            </Button>
+          </div>
+        )}
       </div>
     </>
   );

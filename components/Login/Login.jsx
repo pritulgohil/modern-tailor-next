@@ -71,7 +71,6 @@ function Login() {
         localStorage.setItem("user", JSON.stringify({ id: result.userId }));
         toast({
           title: "Login Successful!",
-          description: `Welcome`,
           style: customToastStyle,
         });
         router.push("/dashboard");
