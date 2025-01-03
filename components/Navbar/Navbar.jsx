@@ -15,7 +15,6 @@ import {
 import { useRouter } from "next/navigation";
 
 import { usePathname } from "next/navigation";
-import { data } from "autoprefixer";
 
 const Navbar = () => {
   const router = useRouter();

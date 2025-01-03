@@ -25,6 +25,7 @@ const Page = () => {
         altText={"modern-tailor-and-cloth-appointment"}
       />
       <AppointmentForm />
+
       <Footer />
     </>
   );
