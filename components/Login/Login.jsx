@@ -70,7 +70,6 @@ function Login() {
       });
       const result = await response.json();
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify({ id: result.userId }));
         setUser(result.userId);
         toast({
           title: "Login Successful!",
@@ -98,7 +97,6 @@ function Login() {
         const response = await fetch(`/api/users/${user}`);
         if (response.ok) {
           const data = await response.json();
-          console.log("User Data:", data.firstname);
           setUserData(data.firstname);
         } else {
           console.error("Failed to fetch user data");

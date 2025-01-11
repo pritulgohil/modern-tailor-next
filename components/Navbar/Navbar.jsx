@@ -20,16 +20,11 @@ import { usePathname } from "next/navigation";
 const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const [storedUser, setStoredUser] = useState(null);
-  // const [userData, setUserData] = useState(null);
   const [loginStatus, setLoginStatus] = useState(false);
   const [userDropDownVisibility, setUserDropDownVisibility] = useState(false);
   const [logoutState, setLogoutState] = useState(true);
   const { user, setUser, userData, setUserData } = useUser();
 
-  // if (user && user.id) {
-  console.log("Navbar IMP", userData);
-  // }
   const handleUserDropDownVisibility = () => {
     setUserDropDownVisibility((prevState) => !prevState);
   };
@@ -39,46 +34,23 @@ const Navbar = () => {
   };
 
   const handleLogoutClick = () => {
-    localStorage.clear(); // Clears all data from localStorage
-    setStoredUser(null);
     setLoginStatus(false);
     setLogoutState(true);
+    setUser(null);
+    setUserData(null);
 
     setTimeout(() => {
       router.push("/");
-    }, 2000); // 2000 milliseconds = 2 seconds
+    }, 2000);
   };
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      if (user) {
-        setStoredUser(JSON.parse(user));
-        setLoginStatus(true);
-        setLogoutState(false);
-      }
+    if (user) {
+      setLoginStatus(true);
+      setLogoutState(false);
     }
   }, []);
-  const fetchUserData = async () => {
-    if (storedUser && storedUser.id) {
-      try {
-        const response = await fetch(`/api/users/${storedUser.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setUserData(data.firstname);
-          console.log("User Data:", data.firstname);
-        } else {
-          console.error("Failed to fetch user data");
-        }
-      } catch (err) {
-        console.error("An error occurred while fetching user data", err);
-      }
-    }
-  };
 
-  useEffect(() => {
-    fetchUserData();
-  }, [loginStatus]);
   return (
     <>
       <div className="top-navbar bg-black h-24 flex items-center justify-between p-4">
