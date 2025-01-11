@@ -42,14 +42,13 @@ const AppointmentForm = () => {
   const [time, setTime] = useState("");
   const [open, setOpen] = useState(false); // Manage dialog open/close state
   const { toast } = useToast();
-  const userFromLocalStorage = localStorage.getItem("user");
   let IDUser = null;
-  if (userFromLocalStorage) {
-    const user = JSON.parse(userFromLocalStorage);
-    IDUser = user.id; // Access the id property
-  } else {
-    console.log("No user found in localStorage.");
-  }
+  // if (userFromLocalStorage) {
+  //   const user = JSON.parse(userFromLocalStorage);
+  //   IDUser = user.id; // Access the id property
+  // } else {
+  //   console.log("No user found in localStorage.");
+  // }
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;

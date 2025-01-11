@@ -13,6 +13,7 @@ import {
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
 import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 import { usePathname } from "next/navigation";
 
@@ -20,11 +21,15 @@ const Navbar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const [storedUser, setStoredUser] = useState(null);
-  const [userData, setUserData] = useState(null);
+  // const [userData, setUserData] = useState(null);
   const [loginStatus, setLoginStatus] = useState(false);
   const [userDropDownVisibility, setUserDropDownVisibility] = useState(false);
   const [logoutState, setLogoutState] = useState(true);
+  const { user, setUser, userData, setUserData } = useUser();
 
+  // if (user && user.id) {
+  console.log("Navbar IMP", userData);
+  // }
   const handleUserDropDownVisibility = () => {
     setUserDropDownVisibility((prevState) => !prevState);
   };
