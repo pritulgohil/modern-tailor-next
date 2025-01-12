@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
+import { useUser } from "@/context/UserContext";
 import {
   Form,
   FormControl,
@@ -43,6 +44,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
+  const { user, setUser, userData, setUserData, setLoginStatus } = useUser();
 
   //Default values for form
   const form = useForm({
@@ -68,7 +70,8 @@ function Login() {
       });
       const result = await response.json();
       if (response.ok) {
-        localStorage.setItem("user", JSON.stringify({ id: result.userId }));
+        localStorage.setItem("userId", result.userId); // Save userId in localStorage
+        setLoginStatus(true);
         toast({
           title: "Login Successful!",
           style: customToastStyle,
@@ -88,6 +91,24 @@ function Login() {
       setIsLoading(false);
     }
   }
+
+  // const fetchUserData = async () => {
+  //   if (user) {
+  //     try {
+  //       const response = await fetch(`/api/users/${user}`);
+  //       if (response.ok) {
+  //         const data = await response.json();
+  //         setUserData(data.firstname);
+  //       } else {
+  //         console.error("Failed to fetch user data");
+  //       }
+  //     } catch (err) {
+  //       console.error("An error occurred while fetching user data", err);
+  //     }
+  //   }
+  // };
+
+  // fetchUserData();
 
   return (
     <div className="login-container w-full flex items-center justify-center">

@@ -1,26 +1,30 @@
-// context/UserContext.js
-import { createContext, useContext, useEffect, useState } from "react";
+"use client";
+import { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();
 
-export function UserProvider({ children }) {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-
-  useEffect(() => {
-    // Fetch user details from localStorage
-    const name = localStorage.getItem("userName");
-    if (name) {
-      setUser({ name });
-    }
-  }, []);
+  const [userData, setUserData] = useState(null);
+  const [loginStatus, setLoginStatus] = useState(false);
+  const [logoutState, setLogoutState] = useState(true);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        userData,
+        setUserData,
+        loginStatus,
+        setLoginStatus,
+        logoutState,
+        setLogoutState,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
-}
+};
 
-export function useUser() {
-  return useContext(UserContext);
-}
+export const useUser = () => useContext(UserContext);

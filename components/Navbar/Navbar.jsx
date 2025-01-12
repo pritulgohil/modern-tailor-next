@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useEffect, useState } from "react";
-import { Button } from "@/components/ui/button";
 
 import {
   NavigationMenu,
@@ -12,56 +10,32 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu";
-import { useRouter } from "next/navigation";
+import { useUser } from "@/context/UserContext";
 
 import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const router = useRouter();
   const pathname = usePathname();
-  const [storedUser, setStoredUser] = useState(null);
-  const [userData, setUserData] = useState(null);
-  const [loginStatus, setLoginStatus] = useState(false);
-  const [userDropDownVisibility, setUserDropDownVisibility] = useState(false);
-  const [logoutState, setLogoutState] = useState(true);
+  const { user, setUser, userData, setUserData, setLoginStatus, loginStatus } =
+    useUser();
 
-  const handleUserDropDownVisibility = () => {
-    setUserDropDownVisibility((prevState) => !prevState);
-  };
+  if (user) {
+    setLoginStatus(true);
+  }
 
-  const handleDashboardClick = () => {
-    router.push("/dashboard");
-  };
+  const userId = localStorage.getItem("userId");
+  setUser(userId);
 
-  const handleLogoutClick = () => {
-    localStorage.clear(); // Clears all data from localStorage
-    setStoredUser(null);
-    setLoginStatus(false);
-    setLogoutState(true);
+  console.log("Login Status", loginStatus);
+  console.log("User", user);
 
-    setTimeout(() => {
-      router.push("/");
-    }, 2000); // 2000 milliseconds = 2 seconds
-  };
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("user");
-      if (user) {
-        setStoredUser(JSON.parse(user));
-        setLoginStatus(true);
-        setLogoutState(false);
-      }
-    }
-  }, []);
   const fetchUserData = async () => {
-    if (storedUser && storedUser.id) {
+    if (user) {
       try {
-        const response = await fetch(`/api/users/${storedUser.id}`);
+        const response = await fetch(`/api/users/${user}`);
         if (response.ok) {
           const data = await response.json();
           setUserData(data.firstname);
-          console.log("User Data:", data.firstname);
         } else {
           console.error("Failed to fetch user data");
         }
@@ -71,9 +45,8 @@ const Navbar = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUserData();
-  }, [loginStatus]);
+  fetchUserData();
+
   return (
     <>
       <div className="top-navbar bg-black h-24 flex items-center justify-between p-4">
@@ -174,33 +147,16 @@ const Navbar = () => {
         <NavigationMenu>
           <NavigationMenuList>
             {loginStatus ? (
-              <NavigationMenuItem>
+              <NavigationMenuItem className="cursor-pointer">
                 <NavigationMenuLink
-                  onClick={handleUserDropDownVisibility}
                   className={`${navigationMenuTriggerStyle()} ${
                     pathname === "/dashboard"
-                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16 cursor-pointer"
+                      ? "h-14 text-md bg-slate-50 underline underline-offset-8 decoration-4 decoration-yellow-400 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                       : "h-14 text-md bg-slate-50 rounded-none h-16 hover:bg-slate-200 hover:h-16"
                   }`}
                 >
                   {userData ? (
-                    <>
-                      Welcome, {userData}{" "}
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        strokeWidth={2.5}
-                        stroke="currentColor"
-                        className="size-4 ml-2"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          d="m19.5 8.25-7.5 7.5-7.5-7.5"
-                        />
-                      </svg>
-                    </>
+                    <>{userData}'s Dashboard</>
                   ) : (
                     <>
                       <svg
@@ -241,22 +197,6 @@ const Navbar = () => {
             )}
           </NavigationMenuList>
         </NavigationMenu>
-        {userDropDownVisibility && (
-          <div className="user-drop-down absolute px-5 py-5 w-52 top-40 right-3 bg-black rounded-xl shadow-xl z-10">
-            <Button
-              onClick={handleDashboardClick}
-              className="w-full text-green-500 border border-green-500 hover:bg-green-500 hover:text-white"
-            >
-              Dashboard
-            </Button>
-            <Button
-              onClick={handleLogoutClick}
-              className="w-full mt-2 bg-red-500 hover:bg-red-600"
-            >
-              {logoutState ? "Logging Out..." : "Logout"}
-            </Button>
-          </div>
-        )}
       </div>
     </>
   );
