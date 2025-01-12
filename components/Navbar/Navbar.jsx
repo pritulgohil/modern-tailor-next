@@ -23,9 +23,10 @@ const Navbar = () => {
     setLoginStatus(true);
   }
 
-  const userId = localStorage.getItem("userId");
-  setUser(userId);
-
+  if (typeof window !== "undefined") {
+    const userId = localStorage.getItem("userId");
+    setUser(userId);
+  }
   console.log("Login Status", loginStatus);
   console.log("User", user);
 
