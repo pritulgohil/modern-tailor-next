@@ -1,21 +1,11 @@
 "use client";
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import React from "react";
 import Navbar from "@/components/Navbar/Navbar";
 import PageDescriptor from "@/components/PageDescriptor/PageDescriptor";
 import Footer from "@/components/Footer";
 import AppointmentForm from "@/components/AppointmentForm/AppointmentForm";
 
 const Page = () => {
-  const router = useRouter();
-
-  useEffect(() => {
-    const storedUser = localStorage.getItem("user");
-    if (!storedUser) {
-      router.push("/login"); // Redirect to the login page if localStorage is empty
-    }
-  }, []);
-
   return (
     <>
       <Navbar />
