@@ -42,7 +42,7 @@ const AppointmentForm = () => {
   const [time, setTime] = useState("");
   const [open, setOpen] = useState(false); // Manage dialog open/close state
   const { toast } = useToast();
-  let IDUser = null;
+  let IDUser = "333eeeeeee";
   // if (userFromLocalStorage) {
   //   const user = JSON.parse(userFromLocalStorage);
   //   IDUser = user.id; // Access the id property
