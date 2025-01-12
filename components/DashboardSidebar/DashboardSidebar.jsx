@@ -1,8 +1,19 @@
 "use client";
 import React from "react";
 import Link from "next/link";
+import { useUser } from "@/context/UserContext";
+import { useRouter } from "next/navigation";
 
 const DashboardSidebar = () => {
+  const { setUser, setUserData, setLoginStatus } = useUser();
+  const router = useRouter();
+  const handleLogout = () => {
+    setUser(null);
+    setUserData(null);
+    setLoginStatus(false);
+    localStorage.clear();
+    router.push("/");
+  };
   return (
     <>
       <div className="flex h-screen">
@@ -17,6 +28,7 @@ const DashboardSidebar = () => {
             <li>
               <Link href="/profile">Profile</Link>
             </li>
+            <li onClick={handleLogout}>Logout</li>
           </ul>
         </div>
       </div>
