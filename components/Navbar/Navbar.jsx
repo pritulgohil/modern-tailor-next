@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-
+import { useEffect } from "react";
 import {
   NavigationMenu,
   NavigationMenuItem,
@@ -22,11 +22,12 @@ const Navbar = () => {
   if (user) {
     setLoginStatus(true);
   }
-
-  if (typeof window !== "undefined") {
-    const userId = localStorage.getItem("userId");
-    setUser(userId);
-  }
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const userId = localStorage.getItem("userId");
+      setUser(userId);
+    }
+  }, []);
   console.log("Login Status", loginStatus);
   console.log("User", user);
 
