@@ -2,6 +2,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { Toaster } from "@/components/ui/toaster";
 import { UserProvider } from "@/context/UserContext";
+import { AppointmentsProvider } from "@/context/AppointmentContext"; // Import the AppointmentsProvider
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,7 +26,10 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <UserProvider>{children}</UserProvider>
+        {/* Wrap with both UserProvider and AppointmentsProvider */}
+        <UserProvider>
+          <AppointmentsProvider>{children}</AppointmentsProvider>
+        </UserProvider>
         <Toaster />
       </body>
     </html>

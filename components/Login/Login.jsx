@@ -44,7 +44,7 @@ function Login() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
-  const { user, setUser, userData, setUserData, setLoginStatus } = useUser();
+  const { setLoginStatus } = useUser();
 
   //Default values for form
   const form = useForm({
@@ -70,18 +70,19 @@ function Login() {
       });
       const result = await response.json();
       if (response.ok) {
-        localStorage.setItem("userId", result.userId); // Save userId in localStorage
+        localStorage.setItem("userId", result.userId);
         setLoginStatus(true);
         toast({
           title: "Login Successful!",
-          style: customToastStyle,
+          description: "Welcome back, you are now logged in!",
+          className: "bg-green-500 text-white p-4 rounded-md",
         });
         router.push("/dashboard");
       } else {
         toast({
           title: result.error,
           description: "Check your credentials.",
-          style: customErrorToastStyle,
+          variant: "destructive",
         });
         console.error("Error:", result);
       }

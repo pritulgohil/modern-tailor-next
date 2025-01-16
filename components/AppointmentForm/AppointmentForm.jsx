@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useAppointments } from "@/context/AppointmentContext"; // Import the context
 import { Button } from "@/components/ui/button";
 import React from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -33,7 +34,11 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
+import { useUser } from "@/context/UserContext";
+
 const AppointmentForm = () => {
+  const { appointments, addAppointment } = useAppointments(); // Access the appointments context
+  const { user } = useUser();
   const [date, setDate] = useState(null);
   const [service, setService] = useState("");
   const [phone, setPhone] = useState("");
@@ -42,13 +47,8 @@ const AppointmentForm = () => {
   const [time, setTime] = useState("");
   const [open, setOpen] = useState(false); // Manage dialog open/close state
   const { toast } = useToast();
-  let IDUser = "333eeeeeee";
-  // if (userFromLocalStorage) {
-  //   const user = JSON.parse(userFromLocalStorage);
-  //   IDUser = user.id; // Access the id property
-  // } else {
-  //   console.log("No user found in localStorage.");
-  // }
+
+  // let IDUser = "123456";
 
   const handlePhoneChange = (e) => {
     const inputValue = e.target.value;
@@ -77,7 +77,7 @@ const AppointmentForm = () => {
         phone,
         name,
         email,
-        userId: IDUser,
+        userId: user,
       };
 
       console.log(appointmentData);
@@ -94,6 +94,7 @@ const AppointmentForm = () => {
       if (response.ok) {
         const result = await response.json();
         console.log("Server Response:", result);
+        addAppointment(result.appointment); // Update global state with the new appointment
         setOpen(false);
         toast({
           title: "Appointment Created",
@@ -137,97 +138,116 @@ const AppointmentForm = () => {
                   <Select onValueChange={setService}>
                     <SelectTrigger className="w-full">
                       <SelectValue
-                        placeholder="Select a timezone"
+                        placeholder="Select Service"
                         value={service}
                       />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectGroup>
-                        <SelectLabel>North America</SelectLabel>
-                        <SelectItem value="est">
-                          Eastern Standard Time (EST)
+                        <SelectLabel>Alteration Services</SelectLabel>
+                        <SelectItem value="Hemming (Pants, Suits)">
+                          Hemming (Pants, Suits)
                         </SelectItem>
-                        <SelectItem value="cst">
-                          Central Standard Time (CST)
+                        <SelectItem value="Taking in/Letting Out (Waist, Hips, Chest)">
+                          Taking in/Letting Out (Waist, Hips, Chest)
                         </SelectItem>
-                        <SelectItem value="mst">
-                          Mountain Standard Time (MST)
+                        <SelectItem value="Sleeve Length Adjustment (Shirts, Jackets)">
+                          Sleeve Length Adjustment (Shirts, Jackets)
                         </SelectItem>
-                        <SelectItem value="pst">
-                          Pacific Standard Time (PST)
+                        <SelectItem value="Trouser Cuffs Adjustment">
+                          Trouser Cuffs Adjustment
                         </SelectItem>
-                        <SelectItem value="akst">
-                          Alaska Standard Time (AKST)
+                        <SelectItem value="Jacket Waist Adjustment">
+                          Jacket Waist Adjustment
                         </SelectItem>
-                        <SelectItem value="hst">
-                          Hawaii Standard Time (HST)
+                        <SelectItem value="Zipper Replacement (Jackets, Pants)">
+                          Zipper Replacement (Jackets, Pants)
                         </SelectItem>
-                      </SelectGroup>
-                      <SelectGroup>
-                        <SelectLabel>Europe & Africa</SelectLabel>
-                        <SelectItem value="gmt">
-                          Greenwich Mean Time (GMT)
-                        </SelectItem>
-                        <SelectItem value="cet">
-                          Central European Time (CET)
-                        </SelectItem>
-                        <SelectItem value="eet">
-                          Eastern European Time (EET)
-                        </SelectItem>
-                        <SelectItem value="west">
-                          Western European Summer Time (WEST)
-                        </SelectItem>
-                        <SelectItem value="cat">
-                          Central Africa Time (CAT)
-                        </SelectItem>
-                        <SelectItem value="eat">
-                          East Africa Time (EAT)
+                        <SelectItem value="Button Replacement (Shirts, Suits)">
+                          Button Replacement (Shirts, Suits)
                         </SelectItem>
                       </SelectGroup>
                       <SelectGroup>
-                        <SelectLabel>Asia</SelectLabel>
-                        <SelectItem value="msk">Moscow Time (MSK)</SelectItem>
-                        <SelectItem value="ist">
-                          India Standard Time (IST)
+                        <SelectLabel>Custom Clothing</SelectLabel>
+                        <SelectItem value="Bespoke Suits (Tailored to your measurements)">
+                          Bespoke Suits (Tailored to your measurements)
                         </SelectItem>
-                        <SelectItem value="cst_china">
-                          China Standard Time (CST)
+                        <SelectItem
+                          value="Custom Shirts (Design and fit based on individual
+                          preferences)"
+                        >
+                          Custom Shirts (Design and fit based on individual
+                          preferences)
                         </SelectItem>
-                        <SelectItem value="jst">
-                          Japan Standard Time (JST)
+                        <SelectItem value="Custom Trousers/Pants (Design, fit, and fabric choice)">
+                          Custom Trousers/Pants (Design, fit, and fabric choice)
                         </SelectItem>
-                        <SelectItem value="kst">
-                          Korea Standard Time (KST)
+                        <SelectItem value="Custom Blazers (Tailored to your style)">
+                          Custom Blazers (Tailored to your style)
                         </SelectItem>
-                        <SelectItem value="ist_indonesia">
-                          Indonesia Central Standard Time (WITA)
+                        <SelectItem value="Tailored Vests (For suits, formal attire)">
+                          Tailored Vests (For suits, formal attire)
+                        </SelectItem>
+                        <SelectItem
+                          value="Custom Sport Coats (Perfect fit for casual or
+                          semi-formal looks)"
+                        >
+                          Custom Sport Coats (Perfect fit for casual or
+                          semi-formal looks)
                         </SelectItem>
                       </SelectGroup>
                       <SelectGroup>
-                        <SelectLabel>Australia & Pacific</SelectLabel>
-                        <SelectItem value="awst">
-                          Australian Western Standard Time (AWST)
+                        <SelectLabel>Repairs & Maintenance</SelectLabel>
+                        <SelectItem value="Mending Tears (Pants, Shirts, Jackets)">
+                          Mending Tears (Pants, Shirts, Jackets)
                         </SelectItem>
-                        <SelectItem value="acst">
-                          Australian Central Standard Time (ACST)
+                        <SelectItem value="Patching Holes (On Denim, Wool, and Other Fabrics)">
+                          Patching Holes (On Denim, Wool, and Other Fabrics)
                         </SelectItem>
-                        <SelectItem value="aest">
-                          Australian Eastern Standard Time (AEST)
+                        <SelectItem value="Replacing Zippers (Jackets, Bags, Pants)">
+                          Replacing Zippers (Jackets, Bags, Pants)
                         </SelectItem>
-                        <SelectItem value="nzst">
-                          New Zealand Standard Time (NZST)
+                        <SelectItem value="Seam Repair (Trousers, Shirts, Jackets)">
+                          Seam Repair (Trousers, Shirts, Jackets)
                         </SelectItem>
-                        <SelectItem value="fjt">Fiji Time (FJT)</SelectItem>
+                        <SelectItem value="Leather Jacket Repair (Including stitching, zippers)">
+                          Leather Jacket Repair (Including stitching, zippers)
+                        </SelectItem>
+                        <SelectItem value="Fixing Torn or Worn Pockets (Pants, Jackets)">
+                          Fixing Torn or Worn Pockets (Pants, Jackets)
+                        </SelectItem>
                       </SelectGroup>
                       <SelectGroup>
-                        <SelectLabel>South America</SelectLabel>
-                        <SelectItem value="art">
-                          Argentina Time (ART)
+                        <SelectLabel>Special Occasion Tailoring</SelectLabel>
+                        <SelectItem value="Wedding Suit Alterations">
+                          Wedding Suit Alterations
                         </SelectItem>
-                        <SelectItem value="bot">Bolivia Time (BOT)</SelectItem>
-                        <SelectItem value="brt">Brasilia Time (BRT)</SelectItem>
-                        <SelectItem value="clt">
-                          Chile Standard Time (CLT)
+                        <SelectItem value="Tuxedo Fitting & Alterations">
+                          Tuxedo Fitting & Alterations
+                        </SelectItem>
+                        <SelectItem value="Groomsmen Suit Alterations">
+                          Groomsmen Suit Alterations
+                        </SelectItem>
+                        <SelectItem value="Prom Suit Tailoring">
+                          Prom Suit Tailoring
+                        </SelectItem>
+                        <SelectItem value="Custom Fit for Formal Events (Galas, Black Tie Events)">
+                          Custom Fit for Formal Events (Galas, Black Tie Events)
+                        </SelectItem>
+                      </SelectGroup>
+                      <SelectGroup>
+                        <SelectLabel>Leather & Outerwear</SelectLabel>
+                        <SelectItem value="Leather Jacket Alterations">
+                          Leather Jacket Alterations
+                        </SelectItem>
+                        <SelectItem value="Custom Leather Jackets">
+                          Custom Leather Jackets
+                        </SelectItem>
+                        <SelectItem value="Coat and Overcoat Tailoring">
+                          Coat and Overcoat Tailoring
+                        </SelectItem>
+                        <SelectItem value="Wool Coat Alterations">
+                          Wool Coat Alterations
                         </SelectItem>
                       </SelectGroup>
                     </SelectContent>

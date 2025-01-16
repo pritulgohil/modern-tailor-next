@@ -34,9 +34,12 @@ export async function POST(req) {
     // Save the appointment to the database
     await appointment.save();
 
-    // Return success response
+    // Return success response with the appointment data
     return new Response(
-      JSON.stringify({ message: "Appointment created successfully" }),
+      JSON.stringify({
+        message: "Appointment created successfully",
+        appointment, // Include the created appointment in the response
+      }),
       {
         status: 201,
         headers: { "Content-Type": "application/json" },
