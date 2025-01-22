@@ -18,12 +18,12 @@ export async function GET(req, { params }) {
 
     console.log("Appointments found:", appointments); // Log the results of the query
 
-    if (appointments.length === 0) {
-      return new Response(
-        JSON.stringify({ error: "No appointments found for this user" }),
-        { status: 404 }
-      );
-    }
+    // if (appointments.length === 0) {
+    //   return new Response(
+    //     JSON.stringify({ error: "No appointments found for this user" }),
+    //     { status: 404 }
+    //   );
+    // }
 
     return new Response(JSON.stringify({ appointments }), {
       status: 200,

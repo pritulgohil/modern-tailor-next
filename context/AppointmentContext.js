@@ -11,12 +11,16 @@ export const useAppointments = () => {
 
 export const AppointmentsProvider = ({ children }) => {
   const [appointments, setAppointments] = useState([]);
+  const [currentAppointment, setCurrentAppointment] = useState(null);
+  const [loaderForAppointments, setLoaderForAppointments] = useState(true);
+  const [loaderForAppointmentCard, setLoaderForAppointmentCard] =
+    useState(true);
   const { user } = useUser();
 
   // Fetch appointments from the API
   const fetchAppointments = async () => {
     if (!user) return;
-
+    setLoaderForAppointments(true);
     try {
       const response = await fetch(`/api/appointments/${user}`, {
         method: "GET",
@@ -31,8 +35,8 @@ export const AppointmentsProvider = ({ children }) => {
       }
 
       const data = await response.json();
-      console.log(data);
       setAppointments(data.appointments);
+      setLoaderForAppointments(false);
     } catch (err) {
       console.error("Error fetching appointments:", err);
     }
@@ -48,7 +52,17 @@ export const AppointmentsProvider = ({ children }) => {
   };
 
   return (
-    <AppointmentsContext.Provider value={{ appointments, addAppointment }}>
+    <AppointmentsContext.Provider
+      value={{
+        appointments,
+        addAppointment,
+        currentAppointment,
+        setCurrentAppointment,
+        loaderForAppointments,
+        loaderForAppointmentCard,
+        setLoaderForAppointmentCard,
+      }}
+    >
       {children}
     </AppointmentsContext.Provider>
   );

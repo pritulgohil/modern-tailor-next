@@ -1,15 +1,44 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useAppointments } from "@/context/AppointmentContext";
+import { Skeleton } from "@/components/ui/skeleton";
 
 const DashboardCards = () => {
+  const { appointments, loaderForAppointments } = useAppointments();
+  console.log("check apps here", appointments);
   return (
     <>
       <div className="cards-container flex gap-8">
         <div className="card w-80 h-80 border border-neutral-300 rounded-2xl p-8 flex flex-col justify-between shadow-l">
-          <h2 className="text-4xl font-bold">
-            You have 2 upcoming appointments.
-          </h2>
+          {/* {appointments.length === 0 ? (
+            <>
+              <div className="skeleton-container">
+                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-8 w-40 mt-4" />
+                <Skeleton className="h-8 w-58 mt-4" />
+              </div>
+            </>
+          ) : (
+            <h2 className="text-4xl font-bold">
+              You have {appointments.length} upcoming appointments.
+            </h2>
+          )} */}
+          {loaderForAppointments ? (
+            <>
+              <div className="skeleton-container">
+                <Skeleton className="h-8 w-48" />
+                <Skeleton className="h-8 w-40 mt-4" />
+                <Skeleton className="h-8 w-58 mt-4" />
+              </div>
+            </>
+          ) : (
+            <h2 className="text-4xl font-bold">
+              You have {appointments.length === 0 ? "no" : appointments.length}{" "}
+              upcoming appointments.
+            </h2>
+          )}
+
           <Link href="/dashboard/appointment">
             <Button className="w-44 self-end font-black flex items-center gap-x-1">
               <svg

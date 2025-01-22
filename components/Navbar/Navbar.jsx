@@ -28,8 +28,6 @@ const Navbar = () => {
       setUser(userId);
     }
   }, []);
-  console.log("Login Status", loginStatus);
-  console.log("User", user);
 
   const fetchUserData = async () => {
     if (user) {

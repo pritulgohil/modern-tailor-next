@@ -8,60 +8,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { useUser } from "@/context/UserContext";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAppointments } from "@/context/AppointmentContext";
 import { Skeleton } from "@/components/ui/skeleton";
 
-const invoices = [
-  {
-    invoice: "INV001",
-    paymentStatus: "Paid",
-    totalAmount: "$250.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV002",
-    paymentStatus: "Pending",
-    totalAmount: "$150.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV003",
-    paymentStatus: "Unpaid",
-    totalAmount: "$350.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV004",
-    paymentStatus: "Paid",
-    totalAmount: "$450.00",
-    paymentMethod: "Credit Card",
-  },
-  {
-    invoice: "INV005",
-    paymentStatus: "Paid",
-    totalAmount: "$550.00",
-    paymentMethod: "PayPal",
-  },
-  {
-    invoice: "INV006",
-    paymentStatus: "Pending",
-    totalAmount: "$200.00",
-    paymentMethod: "Bank Transfer",
-  },
-  {
-    invoice: "INV007",
-    paymentStatus: "Unpaid",
-    totalAmount: "$300.00",
-    paymentMethod: "Credit Card",
-  },
-];
-
 function AppointmentTable() {
-  const { appointments } = useAppointments();
-  console.log("Check this out", appointments);
+  const { appointments, setCurrentAppointment, setLoaderForAppointmentCard } =
+    useAppointments();
+
+  const handleSelect = (id) => {
+    setCurrentAppointment(id);
+    setLoaderForAppointmentCard(true);
+    // console.log("Selected Appointment ID:", id);
+  };
 
   return (
     <>
@@ -94,7 +53,9 @@ function AppointmentTable() {
                   {appointment.service || "No service selected"}
                 </TableCell>
                 <TableCell className="text-right">
-                  <Button>Select</Button>
+                  <Button onClick={() => handleSelect(appointment._id)}>
+                    Select
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
